@@ -11,4 +11,3 @@ type Template struct {
 func CreateTemplate(template Template) {
 	fmt.Println(template)
 }
-
