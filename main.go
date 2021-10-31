@@ -26,7 +26,10 @@ func main() {
 		resourcePathInput.SetText(resourcePath)
 	})
 
-	selection := container.New(layout.NewVBoxLayout(), resourcePathInput, openFilePicker)
+	projectName := widget.NewEntry()
+	projectName.SetPlaceHolder("Project name")
+
+	selection := container.New(layout.NewVBoxLayout(), resourcePathInput, openFilePicker, projectName)
 	language := languageSelection()
 
 	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language))
@@ -37,10 +40,10 @@ func languageSelection() *fyne.Container {
 	title := widget.NewLabel("Select langauge")
 
 	languages := widget.RadioGroup{
-		Horizontal:        false,
-		Required:          true,
-		Options:           []string{"Lua", "JavaScript", "TypeScript"},
-		Selected:          "Lua",
+		Horizontal: false,
+		Required:   true,
+		Options:    []string{"Lua", "JavaScript", "TypeScript"},
+		Selected:   "Lua",
 	}
 
 	return container.New(layout.NewVBoxLayout(), title, &languages)
