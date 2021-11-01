@@ -3,7 +3,6 @@ package ui
 import (
 	"cfa-go/services"
 	"cfa-go/utils"
-	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -11,6 +10,8 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 )
+
+var selectedLanguage string
 
 func SetupUI(a fyne.App) {
 	w := a.NewWindow("CFA")
@@ -32,7 +33,7 @@ func SetupUI(a fyne.App) {
 
 	language := languageSelection()
 
-	createResource := createResource(resourcePathInput.Text, &w)
+	createResource := createResource(resourcePathInput.Text, selectedLanguage, &w)
 
 	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language, createResource))
 	w.ShowAndRun()
@@ -48,10 +49,12 @@ func languageSelection() *fyne.Container {
 		Selected:   "Lua",
 	}
 
+	languages.OnChanged(selectedLanguage)
+
 	return container.New(layout.NewVBoxLayout(), title, &languages)
 }
 
-func createResource(path string, w *fyne.Window) *fyne.Container {
+func createResource(path, language string, w *fyne.Window) *fyne.Container {
 	createButton := widget.NewButton("Create resource", func() {
 		if err := utils.HasCommand("git"); err != nil {
 			dialog.ShowInformation("You seem to be missing Git", "Please install Git from https://git-scm.com/", *w)
@@ -61,7 +64,7 @@ func createResource(path string, w *fyne.Window) *fyne.Container {
 			dialog.ShowInformation("Something went wrong", err.Error(), *w)
 		}
 
-		fmt.Println("Creating resource")
+		services.CreateTemplate(services.Template{Path: path, Language: language})
 	})
 
 	return container.New(layout.NewVBoxLayout(), createButton)
