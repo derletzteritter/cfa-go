@@ -3,6 +3,7 @@ package ui
 import (
 	"cfa-go/services"
 	"cfa-go/utils"
+	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -23,14 +24,6 @@ func SetupUI(a fyne.App) {
 	openFilePicker := widget.NewButton("Browse folder", func() {
 		resourcePath := services.OpenFolderPicker("Select resource path")
 		resourcePathInput.SetText(resourcePath)
-
-		if err := utils.HasCommand("git"); err != nil {
-			dialog.ShowInformation("You seem to be missing Git", "Please install Git from https://git-scm.com/", w)
-		}
-
-		if err := utils.CloneRepo(resourcePath); err != nil {
-			dialog.ShowInformation("Something went wrong", err.Error(), w)
-		}
 	})
 
 	projectName := widget.NewEntry()
@@ -38,9 +31,10 @@ func SetupUI(a fyne.App) {
 	selection := container.New(layout.NewVBoxLayout(), resourcePathInput, openFilePicker, projectName)
 
 	language := languageSelection()
-	packages := packageSelection()
 
-	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language, packages))
+	createResource := createResource(resourcePathInput.Text, &w)
+
+	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language, createResource))
 	w.ShowAndRun()
 }
 
@@ -57,8 +51,18 @@ func languageSelection() *fyne.Container {
 	return container.New(layout.NewVBoxLayout(), title, &languages)
 }
 
-func packageSelection() *fyne.Container {
-	title := widget.NewLabel("Select package")
+func createResource(path string, w *fyne.Window) *fyne.Container {
+	createButton := widget.NewButton("Create resource", func() {
+		if err := utils.HasCommand("git"); err != nil {
+			dialog.ShowInformation("You seem to be missing Git", "Please install Git from https://git-scm.com/", *w)
+		}
 
-	return container.New(layout.NewVBoxLayout(), title)
+		if err := utils.CloneRepo(path); err != nil {
+			dialog.ShowInformation("Something went wrong", err.Error(), *w)
+		}
+
+		fmt.Println("Creating resource")
+	})
+
+	return container.New(layout.NewVBoxLayout(), createButton)
 }
