@@ -3,6 +3,7 @@ package ui
 import (
 	"cfa-go/services"
 	"cfa-go/utils"
+
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
@@ -37,8 +38,9 @@ func SetupUI(a fyne.App) {
 	selection := container.New(layout.NewVBoxLayout(), resourcePathInput, openFilePicker, projectName)
 
 	language := languageSelection()
+	packages := packageSelection()
 
-	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language))
+	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language, packages))
 	w.ShowAndRun()
 }
 
@@ -53,4 +55,10 @@ func languageSelection() *fyne.Container {
 	}
 
 	return container.New(layout.NewVBoxLayout(), title, &languages)
+}
+
+func packageSelection() *fyne.Container {
+	title := widget.NewLabel("Select package")
+
+	return container.New(layout.NewVBoxLayout(), title)
 }
