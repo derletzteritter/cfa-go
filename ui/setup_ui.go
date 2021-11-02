@@ -3,6 +3,7 @@ package ui
 import (
 	"cfa-go/services"
 	"cfa-go/utils"
+	"fmt"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -42,18 +43,19 @@ func SetupUI(a fyne.App) {
 func languageSelection() *fyne.Container {
 	title := widget.NewLabel("Select langauge")
 
-	languages := widget.RadioGroup{
-		Horizontal: false,
-		Required:   true,
-		Options:    []string{"Lua", "JavaScript", "TypeScript"},
-		Selected:   "Lua",
-	}
+	options := []string{"Lua", "JavaScript", "TypeScript"}
 
-	return container.New(layout.NewVBoxLayout(), title, &languages)
+	languages := widget.NewRadioGroup(options, func(language string) {
+		selectedLanguage = language
+	})
+
+	return container.New(layout.NewVBoxLayout(), title, languages)
 }
 
 func createResource(path, language string, w *fyne.Window) *fyne.Container {
 	createButton := widget.NewButton("Create resource", func() {
+		fmt.Println(selectedLanguage)
+
 		if err := utils.HasCommand("git"); err != nil {
 			dialog.ShowInformation("You seem to be missing Git", "Please install Git from https://git-scm.com/", *w)
 		}
