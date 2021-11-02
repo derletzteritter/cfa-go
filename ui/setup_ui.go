@@ -49,8 +49,6 @@ func languageSelection() *fyne.Container {
 		Selected:   "Lua",
 	}
 
-	languages.OnChanged(selectedLanguage)
-
 	return container.New(layout.NewVBoxLayout(), title, &languages)
 }
 
