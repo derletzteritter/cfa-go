@@ -17,7 +17,6 @@ var selectedLanguage string
 func SetupUI(a fyne.App) {
 	w := a.NewWindow("CFA")
 	w.Resize(fyne.Size{Width: 1200, Height: 720})
-	w.SetFixedSize(true)
 
 	title := widget.NewLabelWithStyle("Resource Creation Wizard", fyne.TextAlignLeading, fyne.TextStyle{Bold: true})
 	header := container.New(layout.NewVBoxLayout(), title, layout.NewSpacer())
