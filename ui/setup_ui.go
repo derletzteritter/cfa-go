@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"cfa-go/network"
 	"cfa-go/services"
 	"cfa-go/utils"
 	"fmt"
@@ -56,7 +57,16 @@ func languageSelection() *fyne.Container {
 func packageSelection() *fyne.Container {
 	title := widget.NewLabel("Choose packages")
 
-	return container.New(layout.NewVBoxLayout(), title)
+	packageInput := widget.NewEntry()
+
+	getPackages := widget.NewButton("Get packages", func() {
+		fmt.Println("fuck me")
+		result := network.GetPackages(packageInput.Text)
+
+		fmt.Println(result)
+	})
+
+	return container.New(layout.NewVBoxLayout(), title, packageInput, getPackages)
 }
 
 func createResource(path, language string, w *fyne.Window) *fyne.Container {
