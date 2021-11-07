@@ -59,14 +59,23 @@ func packageSelection() *fyne.Container {
 
 	packageInput := widget.NewEntry()
 
+	packageOptions := []string{"@project-error/cli"}
+
 	getPackages := widget.NewButton("Get packages", func() {
 		fmt.Println("fuck me")
 		result := network.GetPackages(packageInput.Text)
 
-		fmt.Println(result)
+		packageOptions = append(packageOptions, result.Results[0].Results.Name)
+		fmt.Println(packageOptions)
 	})
 
-	return container.New(layout.NewVBoxLayout(), title, packageInput, getPackages)
+	packageSelect := widget.NewSelect(packageOptions, func(s string) {
+		fmt.Println(s)
+	})
+
+	packageSelectEntry := widget.NewSelectEntry(packageOptions)
+
+	return container.New(layout.NewVBoxLayout(), title, packageInput, getPackages, packageSelect, packageSelectEntry)
 }
 
 func createResource(path, language string, w *fyne.Window) *fyne.Container {
