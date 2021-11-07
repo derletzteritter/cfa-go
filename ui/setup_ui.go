@@ -13,6 +13,7 @@ import (
 )
 
 var selectedLanguage string
+var selectedPackages []string
 
 func SetupUI(a fyne.App) {
 	w := a.NewWindow("CFA")
@@ -32,10 +33,11 @@ func SetupUI(a fyne.App) {
 	selection := container.New(layout.NewVBoxLayout(), resourcePathInput, openFilePicker, projectName)
 
 	language := languageSelection()
+	packages := packageSelection()
 
 	createResource := createResource(resourcePathInput.Text, selectedLanguage, &w)
 
-	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language, createResource))
+	w.SetContent(container.New(layout.NewVBoxLayout(), header, selection, language, packages, createResource))
 	w.ShowAndRun()
 }
 
@@ -49,6 +51,12 @@ func languageSelection() *fyne.Container {
 	})
 
 	return container.New(layout.NewVBoxLayout(), title, languages)
+}
+
+func packageSelection() *fyne.Container {
+	title := widget.NewLabel("Choose packages")
+
+	return container.New(layout.NewVBoxLayout(), title)
 }
 
 func createResource(path, language string, w *fyne.Window) *fyne.Container {
