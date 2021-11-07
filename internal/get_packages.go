@@ -24,9 +24,9 @@ func GetPackages(search string) Package {
 	body, err := io.ReadAll(req.Body)
 
 	p := Package{}
-	err := json.Unmarshal([]byte(body), &p)
-	if err != nil {
-		panic(err)
+	jResp := json.Unmarshal([]byte(body), &p)
+	if jResp != nil {
+		panic(jResp)
 	}
 
 	fmt.Println(p)
