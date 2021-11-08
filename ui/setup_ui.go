@@ -1,6 +1,7 @@
 package ui
 
 import (
+	"cfa-go/network"
 	"cfa-go/services"
 	"cfa-go/utils"
 	"fmt"
@@ -56,17 +57,22 @@ func languageSelection() *fyne.Container {
 func packageSelection() *fyne.Container {
 	title := widget.NewLabel("Choose packages")
 
-	packageInput := widget.NewEntry()
-
 	packageOptions := []string{}
-
-	packageSelect := widget.NewSelect(packageOptions, func(s string) {
-		fmt.Println(s)
-	})
 
 	packageSelectEntry := widget.NewSelectEntry(packageOptions)
 
-	return container.New(layout.NewVBoxLayout(), title, packageInput, packageSelect, packageSelectEntry)
+	packageSelectEntry.OnChanged = func(s string) {
+		results := network.GetPackages(s)
+
+		for i := 0; i < results.Results; i++ {
+			packageOptions := append(packageOptions, results.Results[i].Results.Name)
+		}
+
+		packageSelectEntry.SetOptions(packageOptions)
+
+	}
+
+	return container.New(layout.NewVBoxLayout(), title, packageSelectEntry)
 }
 
 func createResource(path, language string, w *fyne.Window) *fyne.Container {

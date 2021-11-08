@@ -5,6 +5,7 @@ go 1.17
 require fyne.io/fyne/v2 v2.1.1
 
 require (
+	fyne.io/x/fyne v0.0.0-20211027195715-357fb402507f // indirect
 	github.com/BurntSushi/toml v0.4.1 // indirect
 	github.com/Kodeworks/golang-image-ico v0.0.0-20141118225523-73f0f4cfade9 // indirect
 	github.com/TheTitanrain/w32 v0.0.0-20180517000239-4f5cfb03fabf // indirect
@@ -29,7 +30,7 @@ require (
 	github.com/sqweek/dialog v0.0.0-20211002065838-9a201b55ab91 // indirect
 	github.com/srwiley/oksvg v0.0.0-20200311192757-870daf9aa564 // indirect
 	github.com/srwiley/rasterx v0.0.0-20200120212402-85cb7272f5e9 // indirect
-	github.com/stretchr/testify v1.5.1 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/urfave/cli/v2 v2.3.0 // indirect
 	github.com/yuin/goldmark v1.3.8 // indirect
 	golang.org/x/image v0.0.0-20200430140353-33d19683fad8 // indirect
