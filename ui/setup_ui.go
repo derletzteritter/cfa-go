@@ -64,8 +64,8 @@ func packageSelection() *fyne.Container {
 	packageSelectEntry.OnChanged = func(s string) {
 		results := network.GetPackages(s)
 
-		for i := 0; i < results.Results; i++ {
-			packageOptions := append(packageOptions, results.Results[i].Results.Name)
+		for i := 0; i < len(results); i++ {
+			packageOptions := append(packageOptions, results.name)
 		}
 
 		packageSelectEntry.SetOptions(packageOptions)
