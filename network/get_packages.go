@@ -22,7 +22,7 @@ type Response struct {
 	Results []Result `json:"results"`
 }
 
-func GetPackages(search string) *[]string {
+func GetPackages(search string) []string {
 	url := fmt.Sprintf("https://api.npms.io/v2/search?q=%s", search)
 
 	response, err := http.Get(url)
@@ -46,5 +46,5 @@ func GetPackages(search string) *[]string {
 		panic(err)
 	}
 
-	return &packages
+	return packages
 }

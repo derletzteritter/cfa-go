@@ -65,7 +65,7 @@ func packageSelection() *fyne.Container {
 		results := network.GetPackages(s)
 
 		for i := 0; i < len(results); i++ {
-			packageOptions := append(packageOptions, results[i].name)
+			packageOptions = append(packageOptions, results[i].name)
 		}
 
 		packageSelectEntry.SetOptions(packageOptions)
